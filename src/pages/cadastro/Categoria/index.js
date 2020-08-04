@@ -28,8 +28,18 @@ function CadastroCategoria() {
     );
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    setCategorias([
+      ...categorias,
+      categoria,
+    ]);
+
+    setCategoria(categoriaInicial);
+  }
+
   useEffect(() => {
-    const URL = 'http://localhost:8080/categorias';
+    const URL = window.location.hostname.includes('localhost') ? 'http://localhost:8080/categorias' : 'https://willflix.herokuapp.com/categorias';
 
     fetch(URL).then(async (serverResponse) => {
       const response = await serverResponse.json();
@@ -44,16 +54,7 @@ function CadastroCategoria() {
         {categoria.nome}
       </h1>
 
-      <form onSubmit={function handleSubmit(infosDoEvento) {
-        infosDoEvento.preventDefault();
-        setCategorias([
-          ...categorias,
-          categoria,
-        ]);
-
-        setCategoria(categoriaInicial);
-      }}
-      >
+      <form onSubmit={handleSubmit}>
 
         <FormField
           label="Nome da Categoria"
